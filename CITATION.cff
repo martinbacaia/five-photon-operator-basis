@@ -6,6 +6,14 @@ authors:
   - family-names: "Baca"
     given-names: "Martín"
 repository-code: "https://github.com/martinbacaia/five-photon-operator-basis"
+doi: 10.5281/zenodo.22819347
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.22819347"
+    description: "Concept DOI — always resolves to the latest version."
+  - type: doi
+    value: "10.5281/zenodo.22819348"
+    description: "Version DOI for v1.0.1, the first archived preprint."
 abstract: >
   Extends the S-matrix classification program of Henning-Lu-Melia-Murayama
   (arXiv:1706.08520) and Chowdhury-Gadde-Gopalka-Halder-Janagal-Minwalla
@@ -28,4 +36,5 @@ preferred-citation:
     - family-names: "Baca"
       given-names: "Martín"
   year: 2026
+  doi: 10.5281/zenodo.22819348
   notes: "Preprint, not yet peer-reviewed. See paper/five-photon-operator-basis.pdf."

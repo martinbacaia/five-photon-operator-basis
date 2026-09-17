@@ -1,5 +1,7 @@
 # The multilinear gauge-invariant operator basis for five massless photons
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22819347.svg)](https://doi.org/10.5281/zenodo.22819347)
+
 **Status: preprint, not peer-reviewed.** See the disclaimer on the first page of the paper.
 Feedback, corrections, and criticism are genuinely welcome — please open an issue.
 
