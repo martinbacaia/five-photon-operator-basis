@@ -1,0 +1,41 @@
+// Resumen estructural del anillo de invariantes de S5 (grados y cantidad de invariantes primarios
+// y secundarios), SIN imprimir los polinomios completos (algunos tienen decenas de miles de
+// caracteres -- ver s5_invariant_ring.sing para el calculo completo).
+
+LIB "finvar.lib";
+
+ring R = 0, (a1,a2,a3,a4,a5), dp;
+
+matrix G1[5][5] = -1,0,-1,0,-1,0,-1,0,-1,-1,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1;
+matrix G2[5][5] = 1,1,0,0,1,-1,0,-1,0,-1,-1,-1,-1,-1,-1,1,0,0,0,0,0,0,1,0,0;
+
+list result = invariant_ring(G1, G2);
+
+matrix primaries = result[1];
+matrix secondaries = result[2];
+
+"numero de invariantes primarios:";
+ncols(primaries);
+"grados de los invariantes primarios:";
+int i;
+for (i=1; i<=ncols(primaries); i=i+1)
+{
+  deg(primaries[1,i]);
+}
+
+"numero de invariantes secundarios:";
+ncols(secondaries);
+"grados de los invariantes secundarios:";
+for (i=1; i<=ncols(secondaries); i=i+1)
+{
+  deg(secondaries[1,i]);
+}
+
+"numero de terminos de cada secundario (para saber cuan complejos son):";
+for (i=1; i<=ncols(secondaries); i=i+1)
+{
+  size(secondaries[1,i]);
+}
+
+"=== FIN RESUMEN ===";
+$

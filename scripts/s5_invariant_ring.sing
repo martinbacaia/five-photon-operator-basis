@@ -1,0 +1,28 @@
+// Calculo del anillo de invariantes de S5 sobre la representacion de 5 dimensiones de los
+// invariantes de Mandelstam (n=5 particulas). Generadores (12) y (12345), matrices extraidas y
+// verificadas en Python (n5_mandelstam_representation.py, reverificacion_generadores.py).
+//
+// Corre con: Singular s5_invariant_ring.sing
+
+LIB "finvar.lib";
+
+ring R = 0, (a1,a2,a3,a4,a5), dp;
+
+matrix G1[5][5] = -1,0,-1,0,-1,0,-1,0,-1,-1,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1;
+matrix G2[5][5] = 1,1,0,0,1,-1,0,-1,0,-1,-1,-1,-1,-1,-1,1,0,0,0,0,0,0,1,0,0;
+
+"=== Matrices de los generadores ===";
+print(G1);
+print(G2);
+
+"=== Calculando anillo de invariantes (invariant_ring) ===";
+list result = invariant_ring(G1, G2);
+
+"=== Invariantes primarios ===";
+result[1];
+
+"=== Invariantes secundarios ===";
+result[2];
+
+"=== FIN ===";
+$

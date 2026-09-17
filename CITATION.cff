@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use or reference this work, please cite it as below."
+type: software
+title: "The multilinear gauge-invariant operator basis for five massless photons"
+authors:
+  - family-names: "Baca"
+    given-names: "Martín"
+repository-code: "https://github.com/martinbacaia/five-photon-operator-basis"
+abstract: >
+  Extends the S-matrix classification program of Henning-Lu-Melia-Murayama
+  (arXiv:1706.08520) and Chowdhury-Gadde-Gopalka-Halder-Janagal-Minwalla
+  (arXiv:1910.14392) to the spinning (photon) case at n=5 particles: S5
+  representation theory on Mandelstam invariants, the complete invariant
+  ring, photon polarization data structure, gauge-invariant building blocks
+  (including a new "triple sandwich" atom), a parity theorem, and a
+  classification through mass dimension 11.
+keywords:
+  - string theory
+  - scattering amplitudes
+  - S-matrix
+  - representation theory
+  - invariant theory
+license: MIT
+preferred-citation:
+  type: generic
+  title: "The multilinear gauge-invariant operator basis for five massless photons: representation theory, invariant ring, and a complete low-degree classification"
+  authors:
+    - family-names: "Baca"
+      given-names: "Martín"
+  year: 2026
+  notes: "Preprint, not yet peer-reviewed. See paper/five-photon-operator-basis.pdf."

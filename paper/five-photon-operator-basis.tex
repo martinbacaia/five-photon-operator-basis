@@ -1,0 +1,534 @@
+\documentclass[reqno]{amsart}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\Tr}{\mathrm{Tr}}
+
+\title[The gauge-invariant operator basis for five photons]{The multilinear gauge-invariant
+operator basis for five massless photons: representation theory, invariant ring, and a complete
+low-degree classification}
+
+\author{Mart\'in Baca}
+\date{}
+
+\begin{document}
+
+\begin{center}
+\fbox{\parbox{0.85\textwidth}{\centering
+\textbf{Preprint v1.0 --- not peer-reviewed.} Independently checked in-house (multiple
+adversarial passes, cross-validated computations, see Section~\ref{sec:verification}), but not
+yet reviewed by anyone outside this project. Feedback, corrections, and criticism are genuinely
+welcome --- please open an issue at
+\url{https://github.com/martinbacaia/five-photon-operator-basis} or contact the author.}}
+\end{center}
+
+\begin{abstract}
+We construct the $S_5$-covariant kinematic data (Mandelstam invariants and photon polarization
+data) for tree-level five-photon scattering in flat space, in generic spacetime dimension $D$
+(no Gram-determinant degeneracies). We show that the space of independent Mandelstam invariants
+for five massless momenta carries an \emph{irreducible} $5$-dimensional representation of $S_5$,
+genuinely richer than the $n=4$ case, where $S_3$ acts by simple permutation of $(s,t,u)$. We
+compute the complete invariant ring of this representation (5 primary invariants of degrees
+$2$--$6$, 6 secondary invariants of degrees $0,6,7,8,9,15$) and cross-validate it exactly against
+Henning, Lu, Melia \& Murayama~\cite{hlmm2017}, who solved the corresponding \emph{scalar} $n=5$
+problem -- confirming our representation-theoretic machinery before extending it to spin. We then
+derive the gauge-invariant polarization data structure for photons at $n=5$: each particle carries
+\emph{two} independent physical parameters (not one, as at $n=4$), with closed-form expressions
+for them and their inverse. We identify four families of manifestly gauge-invariant building
+blocks (pairwise field-strength contractions, a linear ``singlet'', a double field-strength
+``sandwich'', and -- new -- a \emph{triple} field-strength sandwich), prove a parity theorem
+forcing all multilinear five-photon invariants to have odd total momentum degree, and give an
+exact classification of the space of such invariants through mass dimension $11$: dimension $0$ at
+degree $7$, $0$ at degrees $8$ and $10$ (parity), $3$ at degree $9$, and $16$ at degree $11$
+(15 from previously known building blocks plus 1 new dimension from the triple sandwich). All
+results are cross-checked by at least two independent methods, and several real errors caught and
+corrected during verification are documented for transparency.
+\end{abstract}
+
+\maketitle
+\tableofcontents
+
+\section{Introduction}
+
+Classifying the tree-level $S$-matrices of massless particles in flat space, order by order in
+derivatives, is a long-standing question in the amplitudes/EFT literature. For scalars, Henning,
+Lu, Melia \& Murayama (HLMM)~\cite{hlmm2017} gave a systematic method: the independent kinematic
+invariants for $n$ massless scalar legs carry a representation of the permutation group $S_n$, and
+the space of allowed operators at each mass dimension is the Hilbert series of the corresponding
+invariant ring. Chowdhury, Gadde, Gopalka, Halder, Janagal \& Minwalla
+(CGGHJM)~\cite{cgghjm2019} specialized this program to $n=4$ particles \emph{with spin} (photons
+and gravitons), giving a complete, unconditional classification and parameterization of all local
+four-photon and four-graviton polynomial $S$-matrices at any derivative order; they then
+additionally imposed the \emph{Classical Regge Growth} (CRG) conjecture --- that any consistent
+classical $S$-matrix grows no faster than $s^2$ in the Regge limit --- as a further, conjectural
+physical criterion to select the subclass of these already-classified operators that is
+CRG-compatible (e.g.\ isolating a four-parameter family for photons, and ruling out any $D\leq6$
+polynomial correction to the Einstein graviton amplitude).
+
+The natural next step, $n=5$, splits into two problems of very different difficulty:
+\begin{itemize}
+    \item The \textbf{scalar} case was solved completely by HLMM themselves~\cite{hlmm2017},
+    \S 5.6.1: the relevant invariant ring, its primary/secondary invariant degrees, and Hilbert
+    series are all known.
+    \item The \textbf{spinning} case is left open by HLMM, who note (\S 5.4.4, in the context of
+    their discussion of the operator basis at $n>4$) that rings for spinning operators are, in
+    general, not Cohen--Macaulay, unlike the scalar rings (which they prove are Cohen--Macaulay for
+    all $n$). This underlies the \emph{graviton} case of open question \#44 of the ``100 Open
+    Questions'' survey of Strings 2024~\cite{strings2024}, which asks whether the tree-level
+    Einstein $S$-matrix is the unique consistent classical $n$-graviton $S$-matrix (with no
+    high-spin exchange poles), noting this is established only for $n=4$ (via CRG) and posing its
+    extension to $n$-point scattering as an open exercise; the analogous $n$-photon question is not
+    itself part of Q44 but is the natural companion problem, and is the one this note addresses.
+\end{itemize}
+
+This note reports our results on the spinning $n=5$ (photon) case.
+
+\begin{remark}[Scope]
+This note makes \emph{no} claim about the Classical Regge Growth conjecture at $n=5$. That
+question --- what the correct generalization of the classical Regge limit to $n\geq5$ particles
+even is, and whether the CRG bound holds there --- is treated separately, as an open problem with
+supporting (negative) computational evidence, in a companion note~\cite{crgopennote}. Nothing in
+the present note depends on Regge growth being true, false, or well-defined at $n=5$.
+\end{remark}
+
+\subsection*{Organization} Section~\ref{sec:setup} fixes conventions. Section~\ref{sec:rep} gives
+the $S_5$-representation on Mandelstam invariants and its invariant ring, cross-checked against
+HLMM. Section~\ref{sec:polarization} derives the photon polarization data structure at $n=5$.
+Section~\ref{sec:atoms} introduces the gauge-invariant building blocks, including the new
+``triple sandwich'' atom. Section~\ref{sec:parity} proves a parity theorem. Section~\ref{sec:class}
+gives the classification through mass dimension 11. Section~\ref{sec:verification} summarizes the
+verification methodology and documents errors caught in the process. Section~\ref{sec:discussion}
+discusses scope and outlook.
+
+\section{Setup and conventions}
+\label{sec:setup}
+
+We work with $n=5$ massless momenta $p_1,\dots,p_5$ in $D$-dimensional Minkowski space
+(mostly-plus signature), $p_i^2=0$, $\sum_i p_i=0$, with $D$ generic (large enough that no
+Gram-determinant relation among the $p_i$ and polarizations $\varepsilon_i$ is active --- the same
+regime HLMM and CGGHJM use). Each photon carries a polarization vector $\varepsilon_i$ subject to
+$\varepsilon_i\cdot p_i=0$ and the residual gauge redundancy $\varepsilon_i\to\varepsilon_i+\zeta_i
+p_i$. We write $d_{ab}:=p_a\cdot p_b$ and $s_{ab}:=-2d_{ab}$.
+
+\begin{proposition}[Standard fact]
+\label{prop:fieldstrength}
+Suppose $S=V^\mu(\varepsilon_i)_\mu$ is a Lorentz scalar, linear in a single $\varepsilon_i$ (with
+$V$ built from any other data --- other momenta, other polarizations, and possibly other invariant
+tensors such as the Levi-Civita symbol) and invariant under $\varepsilon_i\to\varepsilon_i+\zeta_ip_i$
+for all $\zeta_i$. If there exists a vector $n$, not built from $\varepsilon_i$, with $p_i\cdot n\neq0$
+(guaranteed here by the genericity of the kinematics fixed above), then $S$ depends on
+$\varepsilon_i$ only through the field strength
+$F^i_{\mu\nu}:=p_{i,\mu}\varepsilon_{i,\nu}-p_{i,\nu}\varepsilon_{i,\mu}$: explicitly,
+$S=F^i_{\mu\nu}n^\mu V^\nu/(p_i\cdot n)$.
+\end{proposition}
+
+\begin{proof}
+Gauge invariance forces $p_i\cdot V=0$ (from $S\to S+\zeta_i\,p_i\cdot V$). Then, using $p_i\cdot
+V=0$,
+\[
+F^i_{\mu\nu}n^\mu V^\nu = (p_i\cdot n)(\varepsilon_i\cdot V) - (\varepsilon_i\cdot n)(p_i\cdot V)
+= (p_i\cdot n)\,S,
+\]
+which rearranges to the claimed identity. Note that this holds regardless of what other invariant
+tensors were used to build $V$; only linearity in $\varepsilon_i$ is used, which is why the claim
+does \emph{not} extend to atoms with degree $\geq2$ dependence on a single $\varepsilon_i$ (e.g.\ a
+symmetric form $\varepsilon_i^\mu Q_{\mu\nu}\varepsilon_i^\nu$ with $Q_{\mu\nu}p_i^\nu=0$ is gauge
+invariant but generically not expressible through $F^i$ alone). Every atom used below is linear in
+each polarization it depends on, so this restriction is never an issue in what follows.
+\end{proof}
+
+We build every invariant below out of Lorentz contractions of the $F^i$ and the momenta.
+
+\section{The \texorpdfstring{$S_5$}{S5}-representation on Mandelstam invariants, and its
+invariant ring}
+\label{sec:rep}
+
+\subsection{Representation}
+
+The $\binom{5}{2}=10$ ``raw'' invariants $s_{ij}$ carry the permutation representation of $S_5$ on
+the edges of the complete graph $K_5$. Momentum conservation gives, for each particle $k$, the
+constraint $\sum_{j\neq k}s_{kj}=0$ --- the edge-to-vertex incidence map of $K_5$, which is
+$S_5$-equivariant. The space of independent Mandelstam invariants is the \emph{kernel} of this
+map: automatically an $S_5$-representation, of dimension $10-5=5$.
+
+\begin{theorem}
+\label{thm:irrep}
+The $5$-dimensional representation of $S_5$ described above is irreducible.
+\end{theorem}
+
+\begin{proof}
+The permutation module on (unordered) pairs of a $5$-element set decomposes, by the classical
+Johnson-scheme (Gelfand pair) decomposition for $S_5$ acting on $2$-subsets, as
+$M^{(3,2)}\cong V^{[5]}\oplus V^{[4,1]}\oplus V^{[3,2]}$, of dimensions $1+4+5=10$; the vertex
+permutation module is $M^{(4,1)}\cong V^{[5]}\oplus V^{[4,1]}$, of dimension $5$. The
+edge-to-vertex incidence map is $S_5$-equivariant and, by the dimension count above, surjective
+with $5$-dimensional kernel; since its image must be an $S_5$-subrepresentation of $M^{(4,1)}$ of
+the full dimension $5$, the image is all of $V^{[5]}\oplus V^{[4,1]}$, and the kernel is exactly
+the complementary irreducible summand $V^{[3,2]}$. This is irreducible by construction.
+\end{proof}
+
+\begin{remark}[Independent numerical cross-check]
+We additionally verified this by direct computation: the character norm
+$\|\chi\|^2=\frac{1}{|S_5|}\sum_g|\chi(g)|^2$, computed from the hand-derived formula
+$\chi(g)=\binom{\mathrm{fix}(g)}{2}+c_2(g)-\mathrm{fix}(g)$ (where $\mathrm{fix}(g)$ is the number
+of fixed points and $c_2(g)$ the number of $2$-cycles of $g$ --- exactly the character of
+$M^{(3,2)}$ minus that of $M^{(4,1)}$), equals exactly $1$ when checked against the trace of the
+explicit representation matrices on all $7$ conjugacy classes of $S_5$ (values
+$5,1,1,-1,1,-1,0$ on classes $1^5,21^3,2^21,31^2,32,41,5$, matching the standard character table
+row for the partition $[3,2]$). A brute-force homomorphism test, $\rho(g_1)\rho(g_2)=\rho(g_1g_2)$
+on $40$ random pairs, found zero failures.
+\end{remark}
+
+This is qualitatively different from $n=4$, where the analogous $2$-dimensional space $(s,t)$ is
+\emph{also} irreducible (as a representation of $S_3$), but is realized by literal permutation of
+$(s,t,u)$ among themselves --- no such simple description exists for $n=5$.
+
+\subsection{The invariant ring is not free}
+
+For $n=4$, $S_3$ acts on $(s,t)$ as a genuine reflection group, so by the
+Chevalley--Shephard--Todd theorem the invariant ring is a free polynomial ring (generators in
+degrees $2$ and $3$).
+
+\begin{theorem}
+\label{thm:notfree}
+The ring of $S_5$-invariant polynomials on the $5$-dimensional representation of
+Theorem~\ref{thm:irrep} is not a free polynomial ring.
+\end{theorem}
+
+\begin{proof}
+By Chevalley--Shephard--Todd, the invariant ring is free if and only if $S_5$ acts on this
+representation as a group generated by pseudo-reflections (elements with eigenvalue $1$ of
+multiplicity exactly $4$). A pseudo-reflection $g\neq e$ on this $5$-dimensional representation
+would have eigenvalues $(1,1,1,1,\lambda)$ with $\lambda\neq1$ a root of unity, hence
+$\chi(g)=4+\lambda$; since every character value of $S_5$ is a rational integer, $4+\lambda\in\Z$
+forces $\lambda=-1$ (the only non-trivial real root of unity), i.e.\ $\chi(g)=3$ is the unique
+character value a pseudo-reflection could have. The character values computed in
+Theorem~\ref{thm:irrep} on the $7$ conjugacy classes ($5,1,1,-1,1,-1,0$) never equal $3$ for any
+non-identity class, so \emph{no} element of $S_5$ can be a pseudo-reflection in this
+representation. Hence the invariant ring is not free.
+\end{proof}
+
+\begin{remark}[Independent numerical cross-check]
+This was also checked directly: the exact eigenvalues (computed symbolically, no numerical
+approximation) of one representative of each of the $7$ conjugacy classes of $S_5$ show that no
+non-identity element has eigenvalue $1$ with multiplicity $4$ --- even transpositions, the closest
+candidates, fix only a $3$-dimensional subspace ($\chi=1=a-b$ with $a+b=5$ forces $a=3$), matching
+the general argument above.
+\end{remark}
+
+\subsection{Complete ring structure}
+
+We computed the complete ring structure two independent ways.
+
+\textbf{Molien series} (character theory) gives Hilbert-series coefficients
+\[
+1,\,0,\,1,\,1,\,2,\,2,\,5,\,4,\,8,\,9,\,13,\,15
+\]
+at degrees $0$ through $11$.
+
+\textbf{Direct computation} via Singular's \texttt{finvar.lib} (Noether normalization together
+with Kemper--Steel secondary invariants) on the same explicit $S_5$ generator matrices gives $5$
+primary invariants of degrees $2,3,4,5,6$, and $6$ secondary invariants of degrees $0,6,7,8,9,15$
+(of sizes $1$, $158$, $283$, $495$, $638$, $3565$ terms respectively). The reconstructed Hilbert
+series
+\[
+H(x)=\frac{1+x^6+x^7+x^8+x^9+x^{15}}{(1-x^2)(1-x^3)(1-x^4)(1-x^5)(1-x^6)}
+\]
+matches the independent Molien series exactly in all $12$ degrees checked.
+
+\begin{remark}[Validation against the literature]
+\label{rem:validation}
+This scalar-case ring structure is \emph{already published}: HLMM~\cite{hlmm2017}, eq.~(5.50a),
+give exactly the same Hilbert series, the same primary degrees $(2,3,4,5,6)$, and the same
+secondary degrees $(0,6,7,8,9,15)$, for the identical problem (five identical massless scalars,
+generic $D$), using the same computational tool. We report this explicitly as a validation
+checkpoint confirming our machinery before extending it to the spinning case, which is where the
+genuinely new content of this note begins; the scalar ring itself is \emph{not} claimed as a new
+result.
+\end{remark}
+
+\section{Photon polarization data at \texorpdfstring{$n=5$}{n=5}}
+\label{sec:polarization}
+
+\subsection{Dimensional count}
+
+For $n=4$, the four (generic) momenta span a $3$-dimensional ``scattering plane''; each
+polarization splits into a transverse part $\varepsilon_i^\perp$ (living in the
+$(D-3)$-dimensional complement, acted on by the little group $\SO(D-3)$) and an in-plane part
+$\varepsilon_i^\parallel$. Imposing $\varepsilon_i\cdot p_i=0$ and residual gauge freedom reduces
+$\varepsilon_i^\parallel$ to a \emph{single} complex parameter $\alpha_i$ per particle
+(\cite{cgghjm2019}, eq.~2.11).
+
+Repeating this count for $n=5$: the five momenta span a $4$-dimensional scattering plane; the
+transverse little group is $\SO(D-4)$, and --- after the same two reductions ---
+$\varepsilon_i^\parallel$ is left with \emph{two} independent physical parameters
+$(\alpha_i,\alpha_i')$ per particle.
+
+\subsection{Explicit formula and its inverse}
+
+Writing $w_{jk}:=p_j/s_{1j}-p_k/s_{1k}$, we derive
+\[
+\varepsilon_1^\parallel=\alpha_1\cdot w_{23}+\alpha_1'\cdot w_{24}+a_1\cdot p_1,
+\qquad a_1 \text{ pure gauge.}
+\]
+Verification includes: the orthogonality identity $p_1\cdot w_{jk}=0$ for all $6$ pairs; an
+explicit rank computation (exact, symbolic, treating the $p_i\cdot p_j$ as the $5$ free Mandelstam
+variables) showing the ``raw'' span of the $w_{jk}$ (before quotienting by the gauge direction
+$p_1$) has rank exactly $3$, with $p_1$ itself contained in that span (giving physical dimension
+$3-1=2$) --- a naive first count had incorrectly predicted rank $2$, an off-by-one error caught by
+comparing against the known $n=4$ case, where the analogous raw span also has rank one more than
+the physical dimension. We also checked, by explicit linear solve, that the omitted pairs
+$w_{25},w_{34},w_{35},w_{45}$ are each an exact linear combination of the chosen basis
+$\{w_{23},w_{24},p_1\}$, confirming no information is lost or double-counted.
+
+The inverse relation, expressing $(\alpha_1,\alpha_1')$ in terms of the field-strength contractions
+$C_{jk}:=p_j\cdot F^1\cdot p_k$, is a linear $2\times2$ system whose matrix is a
+\emph{non-diagonal} function of the Mandelstam invariants --- genuinely coupled, unlike the
+trivial $1\times1$ case at $n=4$.
+
+\begin{remark}[Avoiding a spurious pivot dependence]
+An initial attempt to fix a single ``pivot'' particle and express all polarization data in terms
+of $(\alpha_i,\alpha_i')$ explicitly ran into a real obstruction: transition functions between
+different pivot choices are not always trivializable by rescaling, and the construction gives a
+\emph{vector bundle of rank $2$ over the choice of pivot}, not a linear representation of $S_4$.
+We do not use that construction in what follows; every result from Section~\ref{sec:atoms} onward
+is built from manifestly pivot-independent, gauge-invariant contractions of the field strengths
+$F^i$ directly, which sidesteps this issue entirely.
+\end{remark}
+
+\section{Gauge-invariant building blocks (``atoms'')}
+\label{sec:atoms}
+
+We build every multilinear invariant from four families of manifestly gauge-invariant
+contractions of the field strengths $F^i_{\mu\nu}$ and momenta, each verified numerically with
+explicit $D=6$ kinematics (gauge shifts applied to check invariance to machine precision).
+
+\begin{center}
+\small
+\begin{tabular}{@{}l p{5.2cm} c c@{}}
+\hline
+atom & definition & pol.\ slots & mom.\ degree \\
+\hline
+$F^i{:}F^j$ & $F^i_{\mu\nu}F^{j,\mu\nu}$ & 2 & 2 \\[2pt]
+$C^k_{ab}$ & $p_a\cdot F^k\cdot p_b$ & 1 & 3 \\[2pt]
+$M^{ij}_{ab}$ & $p_a\cdot F^i\cdot F^j\cdot p_b$ (``double sandwich'') & 2 & 4 \\[2pt]
+$T^{ijk}_{ab}$ & $p_a\cdot F^i\cdot F^j\cdot F^k\cdot p_b$ (``triple sandwich'', new) & 3 & 5 \\
+\hline
+\end{tabular}
+\end{center}
+
+$F^i{:}F^j$ admits a closed form in terms of $(\alpha,\alpha')$:
+\[
+F^1{:}F^2 = 2(p_1\cdot p_2)(\varepsilon_1^\perp\cdot\varepsilon_2^\perp) + \left.F^1{:}F^2\right|_\parallel,
+\]
+\[
+\left.F^1{:}F^2\right|_\parallel = -(\alpha_1\alpha_2+\alpha_1'\alpha_2')
+- Q\left[\frac{\alpha_1\alpha_2'}{2d_{13}d_{24}}+\frac{\alpha_1'\alpha_2}{2d_{14}d_{23}}\right],
+\]
+\[
+Q = d_{12}^2+d_{12}d_{13}+d_{12}d_{14}+d_{12}d_{23}+d_{12}d_{24}+d_{13}d_{24}+d_{14}d_{23}.
+\]
+Notably, the coefficients of $\alpha_1\alpha_2$ and $\alpha_1'\alpha_2'$ are exactly $-1$ with no
+kinematic dependence; only the cross terms carry the $Q$-dependence. The same $Q$ appears in the
+inverse polarization formula of \S\ref{sec:polarization} and in the linear relations between the
+six $C_{jk}$ for a fixed particle --- a consistency thread across independently-derived pieces.
+
+$M^{ij}_{ab}$ and $T^{ijk}_{ab}$ are built by propagating a momentum through $2$ (resp. $3$) field
+strengths in sequence,
+\[
+v \mapsto v\cdot F^m := (v\cdot p_m)\varepsilon_m - (v\cdot\varepsilon_m)p_m,
+\]
+representing intermediate vectors purely by their dot products with all $p_x,\varepsilon_x$
+(never explicit components), which avoids any choice of basis. $T$ is new to this work; the
+propagation chain was validated by checking that applying it twice reproduces the independently
+verified $M$, before trusting a third application.
+
+\section{A parity theorem}
+\label{sec:parity}
+
+\begin{theorem}
+\label{thm:parity}
+Every multilinear five-photon invariant (linear in each of the $5$ polarizations) built using only
+the metric $\eta^{\mu\nu}$ to perform Lorentz contractions (no Levi-Civita tensor; cf.\
+Remark~\ref{rem:scope}) has odd total momentum degree.
+\end{theorem}
+
+\begin{proof}
+By Proposition~\ref{prop:fieldstrength}, every polarization enters through its field strength
+$F^i$. Consider the complete contraction graph of the invariant: all $5$ field strengths
+$F^1,\dots,F^5$, with their $10$ free indices in total, each saturated by contracting with either
+another field-strength index (an ``$F$-$F$'' contraction, using $2$ indices and $0$ extra momenta)
+or an external momentum (an ``$F$-momentum'' contraction, using $1$ index and $1$ extra momentum)
+--- these are the only two options when contractions use only the metric. (A self-contraction
+$\eta^{\mu\nu}F^i_{\mu\nu}$ of a single field strength with itself vanishes identically by
+antisymmetry of $F^i$, so every nontrivial $F$-$F$ contraction pairs two distinct field strengths
+$F^i,F^j$, $i\neq j$; this does not affect the count below.) If there are $x$ $F$-$F$ contractions
+and $y$ $F$-momentum contractions overall, saturating all $10$ indices gives $2x+y=10$, so $y$ is
+even. The total momentum degree of the invariant is $5+y$ (one intrinsic momentum per field
+strength, plus $y$ external contractions), possibly times a Mandelstam multiplier of even degree
+(built from $d_{ab}=p_a\cdot p_b$); since $y$ is even, the total degree is
+$\equiv5\equiv1\pmod2$ regardless of the contraction pattern or multiplier used. Note this argument
+is applied directly to the invariant's full contraction graph, whether or not it factors as a
+product of independently-contracted pieces (each of the four atoms of Section~\ref{sec:atoms} is
+one such factor, but the argument does not require this factorization).
+\end{proof}
+
+\begin{remark}[Sanity check]
+The identical argument for $n=4$ gives total degree $\equiv0\pmod2$, consistent with all known
+$n=4$ operators (e.g.\ $(\varepsilon_i\cdot\varepsilon_j)(\varepsilon_k\cdot\varepsilon_l)$-type)
+having even degree.
+\end{remark}
+
+\begin{corollary}
+\label{cor:parity}
+Mass dimensions $8$ and $10$ are identically zero for $n=5$.
+\end{corollary}
+
+\section{Classification through mass dimension 11}
+\label{sec:class}
+
+\begin{remark}[Scope of the classification]
+\label{rem:scope}
+The classification below is complete \emph{within the family of invariants that factor as a
+product of the four atoms of Section~\ref{sec:atoms}, each depending on a disjoint subset of
+polarizations, contracted using only the metric} (no Levi-Civita tensor, which we have not
+explored). Two distinct restrictions are implicit here, and we flag both explicitly rather than
+letting the classification's scope be inferred: (i) we do not claim the four listed atoms are the
+only \emph{metric-only} gauge-invariant building blocks --- e.g.\ a single connected contraction
+graph touching all $5$ field strengths at once (such as a cyclic trace
+$F^1{}_\mu{}^\nu F^2{}_\nu{}^\rho\cdots F^5{}_\lambda{}^\mu$) is not obviously reducible to a
+product of the four atoms above, and we have not exhaustively ruled out such ``entangled''
+topologies; (ii) we do not claim completeness once Levi-Civita contractions are allowed. Neither
+gap affects Theorem~\ref{thm:parity} (whose proof applies directly to the full contraction graph of
+any metric-only invariant, factored or not), but both are real boundaries of the degree-by-degree
+dimension count in this section, stated here rather than left implicit.
+\end{remark}
+
+\begin{center}
+\small
+\begin{tabular}{@{}c c p{7cm}@{}}
+\hline
+degree & dimension & status \\
+\hline
+7 & 0 & proven: any candidate vanishes identically under $S_5$-symmetrization \\[2pt]
+8 & 0 & Corollary~\ref{cor:parity} \\[2pt]
+9 & 3 & exact; combinatorially complete (below) \\[2pt]
+10 & 0 & Corollary~\ref{cor:parity} \\[2pt]
+11 & 16 & exact; combinatorially complete (below) \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Degree 7.} Any degree-$7$ candidate in the known topologies vanishes identically under
+$S_5$-symmetrization, by an antisymmetry mechanism: the singlet $C^k_{ab}$ is antisymmetric in
+$a,b$, and some permutation in the $S_5$ orbit always swaps that pair, cancelling the sum.
+
+\textbf{Degree 9} (dimension $3$). The only slot-partitions of the $5$ polarizations reachable at
+degree $9$ with the atoms of Section~\ref{sec:atoms} are $F{:}F+F{:}F+C$ (base degree $7$, needing
+a degree-$2$ Mandelstam corrector) and $F{:}F+M+C$ (degree $2+4+3=9$ exactly, no corrector) ---
+$M+M+C$ is degree $11$, too high, and $T$'s minimum degree is $11$ ($T+C+C=5+3+3$). An
+exact-arithmetic rank/nullspace computation (exact rational matrices, cross-checked against a
+$60$-digit arbitrary-precision computation on independent kinematic samples) confirms dimension
+exactly $3$, with no further direction found after exhausting all contraction variants of both
+partitions.
+
+\textbf{Degree 11} (dimension $16$). The analogous partition-counting argument gives four
+topologies --- $F{:}F+F{:}F+C$ (with a degree-$4$ corrector), $F{:}F+3\times C$ (exact),
+$F{:}F+M+C$ (with a degree-$2$ corrector), $M+M+C$ (exact) --- which a first pass showed span a
+$15$-dimensional space. An exhaustive combinatorial sweep over all contraction variants within
+these four topologies ($887$ seeds, two independent batches of $20$ random high-precision
+kinematic samples each, $60$-digit precision, residuals $\sim10^{-61}$) confirmed rank exactly
+$15$, ruling out an incomplete-seed-set artifact.
+
+A fifth topology, $T+C+C$ (the new triple-sandwich atom, exact degree $5+3+3=11$), was identified
+by the same slot/degree counting argument --- the \emph{only} new partition the $T$ atom opens up
+at this degree --- and shown to add exactly \emph{one} further dimension, confirmed in two
+independent batches of high-precision kinematic samples, and shown not to grow further after also
+exhausting the other two partitions $T$ opens at degree $11$ with a corrector ($T+F{:}F$, $T+M$)
+--- $1297$ total seeds tested, rank stable at $16$.
+
+\section{Verification methodology}
+\label{sec:verification}
+
+Every numeric result above was independently re-derived by at least one alternative method before
+being reported as final, and the process caught several real errors, corrected in place:
+
+\begin{sloppypar}
+\begin{itemize}
+    \item A convention mismatch ($\sigma$ versus $\sigma^{-1}$, i.e.\ an accidental
+    anti-homomorphism instead of a genuine group homomorphism) in an early derivation of the
+    $S_5$ action, caught by a full generator-set change-of-basis test (trace/determinant matching
+    alone is insufficient, since both are constant on conjugacy classes and do not distinguish an
+    anti-homomorphism from a homomorphism).
+    \item A silent numerical corruption from forcing exact rational coefficients to nearby
+    integers, caught by comparing against exact symbolic coefficient matching instead.
+    \item A homogeneity bug (a hand-typed seed of the wrong degree contaminating a rank
+    computation), caught by adding a permanent degree-homogeneity guardrail to the
+    rank-computation utility.
+    \item A floating-point precision failure at degree eleven and above (spurious,
+    sample-dependent rank estimates in double precision), diagnosed and resolved by switching to
+    arbitrary-precision or exact rational arithmetic.
+\end{itemize}
+\end{sloppypar}
+
+We regard this track record as informative about the reliability of the numbers reported here, but
+it does not substitute for independent external verification, which we consider the necessary next
+step before wider circulation of this note.
+
+\section{Discussion and outlook}
+\label{sec:discussion}
+
+This note establishes the $S_5$-representation-theoretic and combinatorial foundation for
+gauge-invariant five-photon operators through mass dimension $11$, and reports a new building
+block (the triple field-strength sandwich $T$) that genuinely extends the operator basis at
+degree $11$ beyond what the previously known atoms capture. All of this is independent of, and
+does not bear on, whether or how the Classical Regge Growth conjecture generalizes to $n\geq5$; we
+discuss that question, together with supporting (negative) computational evidence, in a companion
+note~\cite{crgopennote}.
+
+Natural continuations: (i) settle whether a fifth atom type beyond Section~\ref{sec:atoms} exists,
+either via Levi-Civita contractions or via ``entangled'' metric-only topologies not factoring into
+the four listed atoms (both flagged in Remark~\ref{rem:scope}), which would upgrade
+Section~\ref{sec:class} from a classification within a stated family to a genuine completeness
+theorem; (ii) extend the classification to degree $13$; (iii) investigate whether the ring
+structure found here is Cohen--Macaulay, addressing directly the question HLMM leave open for
+spinning operators at $n\geq5$.
+
+\subsection*{Acknowledgments}
+The author thanks Claude (Anthropic) for assistance with derivations, computational verification,
+and manuscript preparation.
+
+\begin{thebibliography}{9}
+
+\bibitem{hlmm2017}
+B.~Henning, X.~Lu, T.~Melia, H.~Murayama, \emph{Operator bases, $S$-matrices, and their
+partition functions}, JHEP \textbf{10} (2017) 199; arXiv:1706.08520.
+
+\bibitem{cgghjm2019}
+S.~D.~Chowdhury, A.~Gadde, T.~Gopalka, I.~Halder, L.~Janagal, S.~Minwalla, \emph{Classifying and
+constraining local four photon and four graviton $S$-matrices}, JHEP \textbf{02} (2020) 114;
+arXiv:1910.14392.
+
+\bibitem{strings2024}
+H.~Ooguri, A.~Strominger, \emph{Strings 2024: The Future of String Theory --- 100 Open
+Questions}, compiled document circulated at the Strings 2024 conference (2024).
+
+\bibitem{crgopennote}
+M.~Baca, \emph{What is the classical Regge limit for $n\geq5$ particles? An open problem, with
+computational evidence from a five-photon degree-$11$ search}, in preparation.
+
+\end{thebibliography}
+
+\end{document}
